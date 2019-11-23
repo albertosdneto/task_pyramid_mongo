@@ -1,0 +1,3 @@
+[run]
+source = tasks_mongo
+omit = tasks_mongo/test*
