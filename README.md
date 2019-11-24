@@ -1,8 +1,8 @@
 # Tutorial: CRUD with Pyramid, Pymongo and WTForms
-==================
+
 
 ## About
----------------
+
 This repository contains the code written along the tutorial series "Tutorial 1" about Pyramid that can be found at the link below:
 - <https://blog.albertosenna.com/pyramid/>
 
@@ -10,7 +10,7 @@ The goal is to keep track of what I have been studying about Pyramid.
 At each branch you can find the code developed during a certain step of the process.
 
 ## Getting Started
----------------
+
 To run the final product do the following:
 Create a database according to the second part of the tutorial:
 - <https://blog.albertosenna.com/2019/11/24/pyramid-02-mongodb-setup/>
