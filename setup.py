@@ -14,6 +14,7 @@ requires = [
     'pyramid_debugtoolbar',
     'waitress',
     'pymongo',
+    'wtforms',
     ]
 
 tests_require = [
