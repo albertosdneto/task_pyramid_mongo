@@ -16,15 +16,13 @@
   {% endif %}
   {% for task in tasks %}
   <li>
-    {{task.name}}
+    {{task.name}} | <a href="{{ request.route_url('tedit', id=task['_id'])}}">Edit</a> | <a href="{{ request.route_url('tdelete', id=task['_id'])}}">Delete</a>
   </li>
 
   {% endfor %}
 </ul>
-
 <h2>Actions</h2>
 <ul>
     <li><a href="{{request.route_url('tadd')}}">Add new Task</a></li>
 </ul>
-
 {% endblock content %}
