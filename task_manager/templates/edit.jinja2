@@ -1,0 +1,30 @@
+ 
+{% extends "layout.jinja2" %}
+
+
+{% block content %}
+<form action="" method="post">
+    {{ form.id }}
+    <div>
+        {{ form.name.label }}: {{ form.name(class="text-primary") }}
+        {% if form.name.errors %}
+            <ul class="errors">
+            {% for error in form.name.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <div>
+        {{ form.active.label}}: {{ form.active(class="text-primary") }}
+        {% if form.active.errors %}
+            <ul class="errors">
+            {% for error in form.active.errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}        
+    </div>
+    <input type="submit" value="Submit">
+</form>
+{% endblock content %}
