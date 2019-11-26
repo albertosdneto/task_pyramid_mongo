@@ -1,5 +1,6 @@
 from bson.objectid import ObjectId
 from pyramid.httpexceptions import HTTPFound
+from pyramid.security import remember, forget
 from pyramid.url import route_url
 from pyramid.view import view_config
 
@@ -15,7 +16,7 @@ def task_list(request):
     }
 
 
-@view_config(route_name='tadd', renderer='templates/add.jinja2')
+@view_config(route_name='tadd', renderer='templates/add.jinja2', permission='create')
 def task_add(request):
     form = TaskForm(request.POST, None)
 
@@ -27,13 +28,13 @@ def task_add(request):
     return {'form': form}
 
 
-@view_config(route_name='tedit', renderer='templates/edit.jinja2')
+@view_config(route_name='tedit', renderer='templates/edit.jinja2', permission='edit')
 def task_edit(request):
 
-    id = request.matchdict.get('id', None)
-    item = request.db['tasks'].find_one({'_id': ObjectId(id)})
+    id_task = request.matchdict.get('id', None)
+    item = request.db['tasks'].find_one({'_id': ObjectId(id_task)})
     form = TaskUpdateForm(request.POST,
-                          id=id, name=item['name'],
+                          id=id_task, name=item['name'],
                           active=item['active'])
 
     if request.method == 'POST' and form.validate():
@@ -45,9 +46,24 @@ def task_edit(request):
     return {'form': form}
 
 
-@view_config(route_name='tdelete')
+@view_config(route_name='tdelete', permission='delete')
 def task_delete(request):
-    id = request.matchdict.get('id', None)
-    if id:
-        request.db['tasks'].remove({'_id': ObjectId(id)})
+    id_task = request.matchdict.get('id', None)
+    if id_task:
+        request.db['tasks'].remove({'_id': ObjectId(id_task)})
     return HTTPFound(route_url('home', request))
+
+
+@view_config(route_name='auth', match_param='action=in', renderer='string', request_method='POST')
+@view_config(route_name='auth', match_param='action=out', renderer='string')
+def sign_in_out(request):
+    username = request.POST.get('username')
+    if username:
+        user = request.db['users'].find_one({'name': username})
+        if user and user['password'] == request.POST.get('password'):
+            headers = remember(request, user['name'])
+        else:
+            headers = forget(request)
+    else:
+        headers = forget(request)
+    return HTTPFound(location=request.route_url('home'), headers=headers)
