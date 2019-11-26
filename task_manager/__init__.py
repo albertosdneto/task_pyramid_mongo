@@ -1,13 +1,18 @@
-
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
-from urllib.parse import urlparse
 from pymongo import MongoClient
+from urllib.parse import urlparse
 
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    with Configurator(settings=settings) as config:
+    authentication_policy = AuthTktAuthenticationPolicy('somesecret')
+    authorization_policy = ACLAuthorizationPolicy()
+
+    with Configurator(settings=settings, authentication_policy=authentication_policy,
+                      authorization_policy=authorization_policy) as config:
         db_url = urlparse(settings['mongo_uri'])
         config.registry.db = MongoClient(
             host=db_url.hostname,
