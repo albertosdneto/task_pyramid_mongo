@@ -3,7 +3,7 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   color: #ffffff;
-  background: #bc2131;
+  background: brown;
 }
 h1,
 h2,
@@ -149,4 +149,17 @@ p {
   .starter-template .copyright {
     margin-top: 20px;
   }
+}
+
+input {
+  color: black;
+}
+
+a {
+  color: #ffffff;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: underline;
 }
